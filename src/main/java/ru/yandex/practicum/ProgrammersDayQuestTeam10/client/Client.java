@@ -1,30 +1,26 @@
 package ru.yandex.practicum.ProgrammersDayQuestTeam10.client;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.yandex.practicum.ProgrammersDayQuestTeam10.dto.RequestDto;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 @Service
-public class Client extends BaseClient{
+public class Client{
+    public static String authorize(String requestBodyString, String uri, String token) throws IOException, InterruptedException {
+        final HttpClient client = HttpClient.newBuilder().build();
+        final HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri))
+                .header("Content-Type", "application/json")
+            //    .header("Authorization", "Bearer <" + token + ">")
+                .header("MAIN_ANSWER", "error")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBodyString))
+                .build();
 
-    private static final String API_PREFIX = "/register";
-
-    @Autowired
-    public Client(@Value("${practicum-server.url}") String serverUrl, RestTemplateBuilder builder) {
-        super(
-                builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
-                        .requestFactory(HttpComponentsClientHttpRequestFactory::new)
-                        .build()
-        );
-    }
-
-    public ResponseEntity<Object> authorization(Long answer, RequestDto requestDto1) {
-        return post("", answer, requestDto1);
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.body();
     }
 }

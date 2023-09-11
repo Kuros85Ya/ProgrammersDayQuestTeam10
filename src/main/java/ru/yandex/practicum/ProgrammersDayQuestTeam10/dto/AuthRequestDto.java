@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class RequestDto {
+public class AuthRequestDto {
     String name;
     String gitHubUrl;
     Set<UserDto> participants = new HashSet<>();
