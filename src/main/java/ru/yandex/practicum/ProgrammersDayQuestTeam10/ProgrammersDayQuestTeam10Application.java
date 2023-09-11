@@ -5,8 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ru.yandex.practicum.ProgrammersDayQuestTeam10.client.Client;
 import ru.yandex.practicum.ProgrammersDayQuestTeam10.dto.AuthResponseDto;
+import java.io.*;
+import java.util.*;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 @SpringBootApplication
 public class ProgrammersDayQuestTeam10Application {
@@ -14,15 +17,13 @@ public class ProgrammersDayQuestTeam10Application {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		SpringApplication.run(ProgrammersDayQuestTeam10Application.class, args);
 
-		String url = "http://ya.praktikum.fvds.ru:8080/dev-day/register";
-		String requestBody = "{\"name\": \"Триплет\", \"gitHubUrl\":\"https://github.com/Kuros85Ya/ProgrammersDayQuestTeam10\", \"participants\": [{\"email\": \"temporary-usr@yandex.ru\", \"cohort\": \"java_18\", \"firstName\": \"Alexey\", \"lastName\":\"Tumanov\"}, {\"email\": \"sobolevaalinaa@yandex.ru\", \"cohort\": \"java_21\", \"firstName\": \"Alina\", \"lastName\":\"Lyashenko\"}, {\"email\": \"daniil.vagin007@yandex.ru\", \"cohort\": \"java_33\", \"firstName\": \"Daniil\", \"lastName\":\"Vagin\"}]}";
-
-		String response = Client.authorize(requestBody, url, "");
-
-		ObjectMapper mapper = new ObjectMapper();
-//		mapper.readValue(response, AuthResponseDto.class);
-
+		String[] sentences = Client.getCode().split("&quot;");
+		String code = sentences[3];
+		String offset =  sentences[7];
+		String answer = Client.decrypt(code, Integer.parseInt(offset));
+		System.out.println(answer);
+		String response = Client.sendAnswer(answer);
 		System.out.println(response);
+		}
 	}
 
-}
