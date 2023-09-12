@@ -16,14 +16,15 @@ public class ProgrammersDayQuestTeam10Application {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		SpringApplication.run(ProgrammersDayQuestTeam10Application.class, args);
+		String response = Client.sendPassword("1");
 
-		String[] sentences = Client.getCode().split("&quot;");
-		String code = sentences[3];
-		String offset =  sentences[7];
-		String answer = Client.decrypt(code, Integer.parseInt(offset));
-		System.out.println(answer);
-		String response = Client.sendAnswer(answer);
-		System.out.println(response);
+		while (!response.startsWith("200")) {
+
+			String password = Client.generateRandomPassword(5);
+			System.out.println(password);
+			response = Client.sendPassword(password);
+			System.out.println(response);
+		}
 		}
 	}
 
