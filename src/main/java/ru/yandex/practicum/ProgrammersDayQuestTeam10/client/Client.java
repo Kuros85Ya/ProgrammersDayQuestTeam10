@@ -1,6 +1,5 @@
 package ru.yandex.practicum.ProgrammersDayQuestTeam10.client;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -10,6 +9,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.security.SecureRandom;
 import java.util.Random;
+import java.util.Vector;
 
 @Service
 public class Client{
@@ -104,6 +104,49 @@ public class Client{
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
     }
+
+    public static String[] differentFlagPermutations(int X,
+                                                     String[] arr) {
+        String[] ml = arr;
+
+        for (int i = 0; i < ml.length; i++) {
+            System.out.print(ml[i] + " ");
+        }
+
+        int count = ml.length;
+
+        // Traverse all possible lengths
+        for (int z = 0; z < X - 1; z++) {
+
+            // Stores all combinations
+            // of length z
+            Vector<String> tmp = new Vector<String>();
+
+            // Traverse the array
+            for (int i = 0; i < arr.length; i++) {
+                for (int k = 0; k < ml.length; k++) {
+                    if (arr[i] != ml[k]) {
+
+                        // Generate all
+                        // combinations of length z
+                        tmp.add(ml[k] + arr[i]);
+                        count += 1;
+                    }
+                }
+            }
+
+            // Print all combinations of length z
+            for (int i = 0; i < tmp.size(); i++) {
+                System.out.print(tmp.get(i) + " ");
+            }
+
+            // Replace all combinations of length z - 1
+            // with all combinations of length z
+            ml = tmp.toArray(new String[tmp.size()]);
+        }
+        return ml;
+    }
+
 
 
     public static String generateRandomPassword(int len) {
