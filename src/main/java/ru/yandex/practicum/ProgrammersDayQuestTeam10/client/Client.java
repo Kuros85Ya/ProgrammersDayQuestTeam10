@@ -59,23 +59,22 @@ public class Client{
         return response.body();
     }
 
-    public static void decode(String input) throws IOException {
-
-
+    public static String decode(String input) throws IOException {
         Map<String, Charset> charsetMap = Charset.availableCharsets();
         for (String s : charsetMap.keySet()) {
 
             try {
                 Charset set = Charset.forName(s);
                 byte[] bytes = input.getBytes(set);
-                String utf8EncodedString = new String(bytes, StandardCharsets.ISO_8859_1);
-                System.out.println(set);
-                System.out.println(utf8EncodedString);
+                String utf8EncodedString = new String(bytes, "Cp1251");
+                if (utf8EncodedString.startsWith("Позд")) {
+                    return utf8EncodedString;
+                }
             } catch (UnsupportedOperationException e) {
                 System.out.println("Не могу");
             }
         }
-//        return input;
+        return "Не нашел";
     }
 
     public static String decodeTest() throws UnsupportedEncodingException {

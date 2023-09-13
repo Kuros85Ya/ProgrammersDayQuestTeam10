@@ -21,29 +21,17 @@ public class ProgrammersDayQuestTeam10Application {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		SpringApplication.run(ProgrammersDayQuestTeam10Application.class, args);
-		Map<String, Charset> charsetMap = Charset.availableCharsets();
-		for (String s : charsetMap.keySet()) {
-			System.out.println(s);
-		}
 
-		String cyrillic = "їЮЧФаРТЫпХЬ ЮвЫШзЭго ЪЮЬРЭФг б ґЭХЬ ЮЯлвЭЮУЮ їаЮУаРЬЬШбвР";
-		Charset windows1252 = Charset.forName("windows-1251");
+		String[] sentences = Client.getCode().split("<code id=\"congratulation\"><span>");
 
-		byte[] bytes = cyrillic.getBytes(windows1252);
-		String utf8EncodedString = new String(bytes, StandardCharsets.UTF_8);
+		String[] code = sentences[1].split("</span>");
+		String exactCode = code[0];
 
-		System.out.println(utf8EncodedString);
-
-//		String[] sentences = Client.getCode().split("<code id=\"congratulation\"><span>");
-//
-//		String[] code = sentences[1].split("</span>");
-//		String exactCode = code[0];
-
-//		String answer = Client.decode(cyrillic);
-		Client.decode(cyrillic);
-//		System.out.println(answer);
-//		String response = Client.sendAnswer(answer);
-//		System.out.println(response);
+		String answer = Client.decode(exactCode);
+		Client.decode(exactCode);
+		System.out.println(answer);
+		String response = Client.sendAnswer(answer);
+		System.out.println(response);
 		}
 	}
 
