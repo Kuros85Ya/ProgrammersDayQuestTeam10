@@ -3,10 +3,14 @@ package ru.yandex.practicum.ProgrammersDayQuestTeam10.client;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 @Service
 public class Client{
@@ -55,9 +59,29 @@ public class Client{
         return response.body();
     }
 
-    public static String decode(String input) throws IOException {
+    public static void decode(String input) throws IOException {
 
-        return input;
+
+        Map<String, Charset> charsetMap = Charset.availableCharsets();
+        for (String s : charsetMap.keySet()) {
+
+            try {
+                Charset set = Charset.forName(s);
+                byte[] bytes = input.getBytes(set);
+                String utf8EncodedString = new String(bytes, StandardCharsets.ISO_8859_1);
+                System.out.println(set);
+                System.out.println(utf8EncodedString);
+            } catch (UnsupportedOperationException e) {
+                System.out.println("Не могу");
+            }
+        }
+//        return input;
+    }
+
+    public static String decodeTest() throws UnsupportedEncodingException {
+        String cyrillic = "їЮЧФаРТЫпХЬ ЮвЫШзЭго ЪЮЬРЭФг б ґЭХЬ ЮЯлвЭЮУЮ їаЮУаРЬЬШбвР";
+        String corrected8String = new String(cyrillic.getBytes("Cp1252"), "Cp1251");
+        return corrected8String;
     }
 
     public static String decrypt(String s, int offset) throws IOException {
