@@ -17,10 +17,12 @@ public class ProgrammersDayQuestTeam10Application {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		SpringApplication.run(ProgrammersDayQuestTeam10Application.class, args);
 
-		String[] sentences = Client.getCode().split("&quot;");
-		String code = sentences[3];
-		String offset =  sentences[7];
-		String answer = Client.decrypt(code, Integer.parseInt(offset));
+		String[] sentences = Client.getCode().split("<code id=\"congratulation\"><span>");
+
+		String[] code = sentences[1].split("</span>");
+		String exactCode = code[0];
+
+		String answer = Client.decode(exactCode);
 		System.out.println(answer);
 		String response = Client.sendAnswer(answer);
 		System.out.println(response);

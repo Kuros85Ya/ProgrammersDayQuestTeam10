@@ -24,7 +24,7 @@ public class Client{
     }
 
     public static String getCode() throws IOException, InterruptedException {
-        String uri = "http://ya.praktikum.fvds.ru:8080/dev-day/task/2";
+        String uri = "http://ya.praktikum.fvds.ru:8080/dev-day/task/4";
 
         final HttpClient client = HttpClient.newBuilder().build();
         final HttpRequest request = HttpRequest.newBuilder()
@@ -38,19 +38,26 @@ public class Client{
         return response.body();
     }
 
+
+
     public static String sendAnswer(String answer) throws IOException, InterruptedException {
-        String uri = "http://ya.praktikum.fvds.ru:8080/dev-day/task/2";
+        String uri = "http://ya.praktikum.fvds.ru:8080/dev-day/task/4";
 
         final HttpClient client = HttpClient.newBuilder().build();
         final HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .header("Content-Type", "application/json")
                 .header("AUTH_TOKEN", "fafdd883-3740-4314-978b-c5db4471a50e")
-                .POST(HttpRequest.BodyPublishers.ofString("{\"decoded\": \"" + answer  + "\"}"))
+                .POST(HttpRequest.BodyPublishers.ofString("{\"congratulation\": \"" + answer  + "\"}"))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response.body();
+    }
+
+    public static String decode(String input) throws IOException {
+
+        return input;
     }
 
     public static String decrypt(String s, int offset) throws IOException {
