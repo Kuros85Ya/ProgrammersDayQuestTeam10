@@ -8,8 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.security.SecureRandom;
-import java.util.Random;
-import java.util.Vector;
+import java.util.*;
 
 @Service
 public class Client{
@@ -147,7 +146,28 @@ public class Client{
         return ml;
     }
 
+    public static Integer func() {
+        int[] arr = {9, 4, 9, 6, 7, 4, 5};
 
+        ArrayList<Integer> elements = new ArrayList<>();
+        HashMap<Integer, Integer> counts = new HashMap<>();
+
+        for (int j : arr) {
+            elements.add(j);
+            if (!counts.containsKey(j)) {
+                counts.put(j, 1);
+            } else {
+                int currentCount = counts.get(j);
+                counts.put(j, ++currentCount);
+            }
+        }
+
+        for (Integer elem: elements) {
+            if (counts.get(elem) == 1)
+                return elem;
+        }
+        return null;
+    }
 
     public static String generateRandomPassword(int len) {
 // Диапазон ASCII – буквенно-цифровой (0-9, a-z, A-Z)
