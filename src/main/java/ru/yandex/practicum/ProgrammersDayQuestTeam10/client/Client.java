@@ -61,14 +61,13 @@ public class Client{
 
     public static String decode(String input) throws IOException {
         Map<String, Charset> charsetMap = Charset.availableCharsets();
-        for (String s : charsetMap.keySet()) {
+        for (Charset set : charsetMap.values()) {
 
             try {
-                Charset set = Charset.forName(s);
                 byte[] bytes = input.getBytes(set);
-                String utf8EncodedString = new String(bytes, "Cp1251");
-                if (utf8EncodedString.startsWith("Позд")) {
-                    return utf8EncodedString;
+                String encodedString = new String(bytes, "Cp1251");
+                if (encodedString.startsWith("Позд")) {
+                    return encodedString;
                 }
             } catch (UnsupportedOperationException e) {
                 System.out.println("Не могу");
